@@ -8,7 +8,8 @@ PKG_DIR = pkg-build
 SRC = Source1.cpp
 # Имя итогового исполняемого файла
 TARGET = program
-VERSION = 1.0 # Ну по приколу
+# Ну по приколу
+VERSION = 1.0 
 
 all: check $(TARGET)
 
@@ -20,7 +21,7 @@ check:
 
 # Создание исполняемого файла
 $(TARGET): $(SRC)
-	$(CXX) $(SRC) -o $(TARGET) $(LDFLAGS)
+	$(CXX) $(SRC) -o $(TARGET) $(CXXFLAGS)
 	@echo "Сборка завершена. Исполняемый файл: $(TARGET)"
 
 # Цель "clean" - удаляет все объектные файлы и исполняемый файл
