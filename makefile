@@ -9,7 +9,7 @@ SRC = Source1.cpp
 # Имя итогового исполняемого файла
 TARGET = program
 # Ну по приколу
-VERSION = 1.0 
+VERSION = 1.0
 
 all: check $(TARGET)
 
@@ -21,7 +21,7 @@ check:
 
 # Создание исполняемого файла
 $(TARGET): $(SRC)
-	$(CXX) $(SRC) -o $(TARGET) $(CXXFLAGS)
+	$(CXX) $(CXXFLAGS) $(SRC) -o $(TARGET) 
 	@echo "Сборка завершена. Исполняемый файл: $(TARGET)"
 
 # Цель "clean" - удаляет все объектные файлы и исполняемый файл
