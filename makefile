@@ -13,7 +13,10 @@ VERSION = 1.0 # Ну по приколу
 all: check $(TARGET)
 
 check:
-	@command -v $(CXX) > /dev/null || {echo "Error: $(CXX) not found"; exit 1; }
+	@if ! command -v $(CXX) > /dev/null; then \
+		echo "Error: $(CXX) not found"; \
+		exit 1; \
+	fi
 
 # Создание исполняемого файла
 $(TARGET): $(SRC)
@@ -31,7 +34,7 @@ prepare-deb:
 	@mkdir -p $(PKG_DIR)/DEBIAN
 	
 # Создание deb-пакета
-deb: clean check $(TARGET) prepare-deb
+deb: deps clean check $(TARGET) prepare-deb
 	@cp $(TARGET) $(PKG_DIR)/usr/local/bin/
 	#Что-то умное про зависимости
 	@echo "Package: myprogram" > $(PKG_DIR)/DEBIAN/control
@@ -44,7 +47,12 @@ deb: clean check $(TARGET) prepare-deb
 	@dpkg-deb --build $(PKG_DIR)
 	@mv $(PKG_DIR).deb myprogram_$(VERSION)_amd64.deb
 	@echo "Пакет создан: myprogram_$(VERSION)_amd64.deb"
-
+	
+# Установка зависимостей (для чистой системы)
+deps:
+	@echo "Проверка и установка зависимостей..."
+	@sudo apt update
+	@sudo apt install -y g++ make libc6 dpkg-dev
 # Установка пакета локально
 install-local: deb
 	@sudo dpkg -i myprogram_$(VERSION)_amd64.deb
